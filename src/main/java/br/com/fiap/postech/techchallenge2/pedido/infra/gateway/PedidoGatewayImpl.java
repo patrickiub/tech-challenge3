@@ -1,0 +1,90 @@
+package br.com.fiap.postech.techchallenge2.pedido.infra.gateway;
+
+import java.util.List;
+
+import br.com.fiap.postech.techchallenge2.cardapio.infra.gateway.db.entity.ItemCardapioEntity;
+import br.com.fiap.postech.techchallenge2.cardapio.infra.gateway.db.repository.ItemCardapioRepository;
+import br.com.fiap.postech.techchallenge2.pedido.core.domain.ItemPedido;
+import br.com.fiap.postech.techchallenge2.pedido.core.domain.Pedido;
+import br.com.fiap.postech.techchallenge2.pedido.core.usecase.PedidoGateway;
+import br.com.fiap.postech.techchallenge2.pedido.infra.gateway.db.entity.PedidoEntity;
+import br.com.fiap.postech.techchallenge2.pedido.infra.gateway.db.entity.PedidoItemEntity;
+import br.com.fiap.postech.techchallenge2.pedido.infra.gateway.db.repository.PedidoRepository;
+import br.com.fiap.postech.techchallenge2.restaurante.infra.gateway.db.entity.RestauranteEntity;
+import br.com.fiap.postech.techchallenge2.restaurante.infra.gateway.db.repository.RestauranteRepository;
+import br.com.fiap.postech.techchallenge2.usuario.infra.gateway.db.entity.UsuarioEntity;
+import br.com.fiap.postech.techchallenge2.usuario.infra.gateway.db.repository.UsuarioRepository;
+
+public class PedidoGatewayImpl implements PedidoGateway{
+
+    private final PedidoRepository pedidoRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final RestauranteRepository restauranteRepository;
+    private final ItemCardapioRepository itemCardapioRepository;
+
+    public PedidoGatewayImpl(PedidoRepository pedidoRepository) {
+        this.pedidoRepository = pedidoRepository;
+        this.usuarioRepository = null;
+        this.restauranteRepository = null;
+        this.itemCardapioRepository = null;
+    }
+
+    @Override
+    public Pedido salvar(Pedido pedido) {
+        PedidoEntity entity = toEntity(pedido);
+        PedidoEntity saved = pedidoRepository.save(entity);
+        return toDomain(saved);
+    }
+
+    private Pedido toDomain(PedidoEntity entity) {
+        return new Pedido(
+            entity.getId(),
+            entity.getUsuario().getId(),
+            entity.getRestaurante().getId(),
+            entity.getItens().stream()
+                .map(item -> new ItemPedido(
+                    item.getId(),
+                    item.getItemCardapio().getId(),
+                    item.getItemCardapio().getNome(),
+                    item.getQuantidade(),
+                    item.getPrecoUnitario()
+                ))
+                .toList(),
+            entity.getValorTotal(),
+            entity.getStatus()
+        );
+    }
+
+
+    private PedidoEntity toEntity(Pedido pedido) {
+        PedidoEntity entity= new PedidoEntity();
+
+        UsuarioEntity usuario = usuarioRepository.getReferenceById(pedido.getClienteId());
+        entity.setUsuario(usuario);
+
+        RestauranteEntity restaurante = restauranteRepository.getReferenceById(pedido.getRestauranteId());
+        entity.setRestaurante(restaurante);
+
+        entity.setValorTotal(pedido.getValorTotal());
+        entity.setStatus(pedido.getStatus());
+
+
+        // converter itens
+        List<PedidoItemEntity> itens = pedido.getItens().stream()
+            .map(item -> {
+                PedidoItemEntity itemEntity = new PedidoItemEntity();
+                itemEntity.setPedido(entity);
+
+                ItemCardapioEntity itemCardapio = itemCardapioRepository.getReferenceById(item.getItemCardapioId());
+                itemEntity.setItemCardapio(itemCardapio);
+
+                itemEntity.setQuantidade(item.getQuantidade());
+                itemEntity.setPrecoUnitario(item.getPreco());
+                return itemEntity;
+            }).toList();
+
+        entity.setItens(itens);
+        return entity;
+    }
+
+}
