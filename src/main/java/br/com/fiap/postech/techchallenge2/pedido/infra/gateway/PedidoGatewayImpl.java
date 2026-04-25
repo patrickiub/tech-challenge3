@@ -2,6 +2,8 @@ package br.com.fiap.postech.techchallenge2.pedido.infra.gateway;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import br.com.fiap.postech.techchallenge2.cardapio.infra.gateway.db.entity.ItemCardapioEntity;
 import br.com.fiap.postech.techchallenge2.cardapio.infra.gateway.db.repository.ItemCardapioRepository;
 import br.com.fiap.postech.techchallenge2.pedido.core.domain.ItemPedido;
@@ -15,6 +17,8 @@ import br.com.fiap.postech.techchallenge2.restaurante.infra.gateway.db.repositor
 import br.com.fiap.postech.techchallenge2.usuario.infra.gateway.db.entity.UsuarioEntity;
 import br.com.fiap.postech.techchallenge2.usuario.infra.gateway.db.repository.UsuarioRepository;
 
+
+@Component
 public class PedidoGatewayImpl implements PedidoGateway{
 
     private final PedidoRepository pedidoRepository;
