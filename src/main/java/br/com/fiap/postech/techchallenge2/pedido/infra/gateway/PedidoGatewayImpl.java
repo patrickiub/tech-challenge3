@@ -1,6 +1,7 @@
 package br.com.fiap.postech.techchallenge2.pedido.infra.gateway;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -113,6 +114,32 @@ public class PedidoGatewayImpl implements PedidoGateway{
 
         entity.setItens(itens);
         return entity;
+    }
+
+    @Override
+    public Optional<Pedido> consultarPedido(Long id) {
+     
+        return pedidoRepository.findById(id)
+        .map(entity -> {
+            // monta o domínio completo
+            return new Pedido(
+                entity.getId(),
+                entity.getUsuario().getId(),
+                entity.getRestaurante().getId(),
+                entity.getItens().stream()
+                    .map(item -> new ItemPedido(
+                        item.getId(),
+                        item.getItemCardapio().getId(),
+                        item.getItemCardapio().getNome(),
+                        item.getQuantidade(),
+                        item.getPrecoUnitario()
+                    ))
+                    .toList(),
+                entity.getValorTotal(),
+                entity.getStatus()
+            );
+        });
+        
     }
 
 }
