@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import br.com.fiap.postech.techchallenge2.pedido.core.domain.ItemPedido;
-import br.com.fiap.postech.techchallenge2.pedido.core.domain.Pedido;
 import br.com.fiap.postech.techchallenge2.pedido.core.dto.PedidoRequestDTO;
 import br.com.fiap.postech.techchallenge2.pedido.core.dto.PedidoResponseDTO;
 import br.com.fiap.postech.techchallenge2.pedido.core.gateway.CriarPedidoUseCase;
@@ -37,20 +34,8 @@ public class PedidoController {
         // @ApiResponse(responseCode = "400", description = "Pedido criado"),
     })
     public PedidoResponseDTO criar(@Valid @RequestBody PedidoRequestDTO dto) {
-    Pedido pedido = new Pedido(
-        dto.clienteId(),
-        dto.restauranteId(),
-        dto.itens().stream()
-            .map(i -> new ItemPedido(
-                null,             // id
-                i.itemCardapioId(),  // itemCardapioId
-                null,           // nome (pode ser resolvido depois)
-                i.quantidade(),      // quantidade
-                null          // preco
-            ))
-            .toList() // transforma o Stream em List<ItemPedido>
-    );
-    return PedidoResponseDTO.from(criarPedidoUseCase.executar(pedido));
+    
+    return PedidoResponseDTO.from(criarPedidoUseCase.executar(dto));
 }
 
 

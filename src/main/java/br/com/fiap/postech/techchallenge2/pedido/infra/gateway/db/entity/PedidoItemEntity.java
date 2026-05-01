@@ -38,7 +38,4 @@ public class PedidoItemEntity {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal precoUnitario;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal subtotal;
-
 }

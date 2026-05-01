@@ -8,6 +8,7 @@ import br.com.fiap.postech.techchallenge2.cardapio.infra.gateway.db.entity.ItemC
 import br.com.fiap.postech.techchallenge2.cardapio.infra.gateway.db.repository.ItemCardapioRepository;
 import br.com.fiap.postech.techchallenge2.pedido.core.domain.ItemPedido;
 import br.com.fiap.postech.techchallenge2.pedido.core.domain.Pedido;
+import br.com.fiap.postech.techchallenge2.pedido.core.dto.PedidoRequestDTO;
 import br.com.fiap.postech.techchallenge2.pedido.core.usecase.PedidoGateway;
 import br.com.fiap.postech.techchallenge2.pedido.infra.gateway.db.entity.PedidoEntity;
 import br.com.fiap.postech.techchallenge2.pedido.infra.gateway.db.entity.PedidoItemEntity;
@@ -26,21 +27,44 @@ public class PedidoGatewayImpl implements PedidoGateway{
     private final RestauranteRepository restauranteRepository;
     private final ItemCardapioRepository itemCardapioRepository;
 
-    public PedidoGatewayImpl(PedidoRepository pedidoRepository) {
+    public PedidoGatewayImpl(PedidoRepository pedidoRepository, UsuarioRepository usuarioRepository, RestauranteRepository restauranteRepository, ItemCardapioRepository itemCardapioRepository) {
         this.pedidoRepository = pedidoRepository;
-        this.usuarioRepository = null;
-        this.restauranteRepository = null;
-        this.itemCardapioRepository = null;
+        this.usuarioRepository = usuarioRepository;
+        this.restauranteRepository = restauranteRepository;
+        this.itemCardapioRepository = itemCardapioRepository;
     }
 
     @Override
-    public Pedido salvar(Pedido pedido) {
+    public Pedido salvar(PedidoRequestDTO dto) {
+
+        Pedido pedido = new Pedido(
+        dto.clienteId(),
+        dto.restauranteId(),
+        dto.itens().stream()
+            .map(i -> {
+                ItemCardapioEntity itemCardapio = itemCardapioRepository.findById(i.itemCardapioId())
+                    .orElseThrow(() -> new RuntimeException("Item de cardápio não encontrado"));
+
+                return new ItemPedido(
+                    null,                  // id
+                    itemCardapio.getId(),  // itemCardapioId
+                    itemCardapio.getNome(),// nome
+                    i.quantidade(),        // quantidade
+                    itemCardapio.getPreco()// preço
+                );
+            })
+            .toList()
+    );
+
+
         PedidoEntity entity = toEntity(pedido);
         PedidoEntity saved = pedidoRepository.save(entity);
         return toDomain(saved);
     }
 
-    private Pedido toDomain(PedidoEntity entity) {
+    private Pedido toDomain(PedidoEntity entity) {        
+        
+
         return new Pedido(
             entity.getId(),
             entity.getUsuario().getId(),
