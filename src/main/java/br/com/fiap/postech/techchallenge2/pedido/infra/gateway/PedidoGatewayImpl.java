@@ -151,4 +151,12 @@ public class PedidoGatewayImpl implements PedidoGateway{
             .toList();        
     }
 
+    @Override
+    public Pedido atualizarStatus(Pedido pedido) {
+        // aqui o pedido já vem validado e com status alterado pelo UseCase
+        PedidoEntity entity = toEntity(pedido);
+        PedidoEntity atualizado = pedidoRepository.save(entity);
+        return toDomain(atualizado);
+    }
+
 }

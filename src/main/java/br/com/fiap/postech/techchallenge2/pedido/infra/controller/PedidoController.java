@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.fiap.postech.techchallenge2.pedido.core.dto.CriarPedidoRequestDTO;
 import br.com.fiap.postech.techchallenge2.pedido.core.dto.CriarPedidoResponseDTO;
 import br.com.fiap.postech.techchallenge2.pedido.core.dto.PedidoResponseDTO;
+import br.com.fiap.postech.techchallenge2.pedido.core.usecase.ConfirmarPedidoUseCase;
 import br.com.fiap.postech.techchallenge2.pedido.core.usecase.ConsultarPedidoUseCase;
 import br.com.fiap.postech.techchallenge2.pedido.core.usecase.ConsultarPedidosClienteUseCase;
 import br.com.fiap.postech.techchallenge2.pedido.core.usecase.CriarPedidoUseCase;
@@ -31,16 +32,33 @@ public class PedidoController {
     private final CriarPedidoUseCase criarPedidoUseCase;
     private final ConsultarPedidoUseCase consultarPedidoUseCase;
     private final ConsultarPedidosClienteUseCase consultarPedidosClienteUseCase;
+    private final ConfirmarPedidoUseCase confirmarPedidoUseCase;
 
     public PedidoController(
             CriarPedidoUseCase criarPedidoUseCase,
             ConsultarPedidoUseCase consultarPedidoUseCase,
-            ConsultarPedidosClienteUseCase consultarPedidosClienteUseCase
+            ConsultarPedidosClienteUseCase consultarPedidosClienteUseCase,
+            ConfirmarPedidoUseCase confirmarPedidoUseCase
     ) {
         this.criarPedidoUseCase = criarPedidoUseCase;
         this.consultarPedidoUseCase = consultarPedidoUseCase;
         this.consultarPedidosClienteUseCase = consultarPedidosClienteUseCase;
+        this.confirmarPedidoUseCase = confirmarPedidoUseCase;
     }
+
+    @GetMapping("/confirmar/{id}") 
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary =  "Confirmar pedido", description = "Altera o status do pedido para confirmado")
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Pedido confirmado")
+        // @ApiResponse(responseCode = "400", description = "Pedido criado"),
+    })
+    public PedidoResponseDTO confirmarPedido(@PathVariable Long id) {
+        
+        Long clienteId = 2L;
+
+        return PedidoResponseDTO.from(confirmarPedidoUseCase.executar(id, clienteId));
+    } 
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

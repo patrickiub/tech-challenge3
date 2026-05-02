@@ -3,6 +3,7 @@ package br.com.fiap.postech.techchallenge2.pedido.core.domain;
 import java.math.BigDecimal;
 import java.util.List;
 
+import br.com.fiap.postech.techchallenge2.pedido.core.exception.PedidoTransicaoEstadoException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,14 @@ public class Pedido {
         return itens.stream()
                 .map(item -> item.getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public void confirmar() {
+        if (!StatusPedido.AGUARDANDO_CONFIRMACAO.equals(this.status)){
+            throw new PedidoTransicaoEstadoException(this.status.toString(), StatusPedido.AGUARDANDO_CONFIRMACAO.toString());
+        }
+
+        this.status = StatusPedido.CONFIRMADO;
     }
 }
 

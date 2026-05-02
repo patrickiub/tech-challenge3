@@ -15,4 +15,6 @@ public interface PedidoGateway {
 
     List<Pedido> consultarPedidosCliente(Long clienteId);
 
+    Pedido atualizarStatus(Pedido pedido);
+
 }
