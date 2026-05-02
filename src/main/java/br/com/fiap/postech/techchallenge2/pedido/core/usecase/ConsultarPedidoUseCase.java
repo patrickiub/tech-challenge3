@@ -1,10 +1,10 @@
-package br.com.fiap.postech.techchallenge2.pedido.core.gateway;
+package br.com.fiap.postech.techchallenge2.pedido.core.usecase;
 
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.postech.techchallenge2.pedido.core.domain.Pedido;
 import br.com.fiap.postech.techchallenge2.pedido.core.exception.PedidoNaoEncontradoException;
-import br.com.fiap.postech.techchallenge2.pedido.core.usecase.PedidoGateway;
+import br.com.fiap.postech.techchallenge2.pedido.core.gateway.PedidoGateway;
 
 @Service
 public class ConsultarPedidoUseCase {

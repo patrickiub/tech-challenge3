@@ -9,8 +9,8 @@ import br.com.fiap.postech.techchallenge2.cardapio.infra.gateway.db.entity.ItemC
 import br.com.fiap.postech.techchallenge2.cardapio.infra.gateway.db.repository.ItemCardapioRepository;
 import br.com.fiap.postech.techchallenge2.pedido.core.domain.ItemPedido;
 import br.com.fiap.postech.techchallenge2.pedido.core.domain.Pedido;
-import br.com.fiap.postech.techchallenge2.pedido.core.dto.PedidoRequestDTO;
-import br.com.fiap.postech.techchallenge2.pedido.core.usecase.PedidoGateway;
+import br.com.fiap.postech.techchallenge2.pedido.core.dto.CriarPedidoRequestDTO;
+import br.com.fiap.postech.techchallenge2.pedido.core.gateway.PedidoGateway;
 import br.com.fiap.postech.techchallenge2.pedido.infra.gateway.db.entity.PedidoEntity;
 import br.com.fiap.postech.techchallenge2.pedido.infra.gateway.db.entity.PedidoItemEntity;
 import br.com.fiap.postech.techchallenge2.pedido.infra.gateway.db.repository.PedidoRepository;
@@ -36,7 +36,7 @@ public class PedidoGatewayImpl implements PedidoGateway{
     }
 
     @Override
-    public Pedido salvar(PedidoRequestDTO dto) {
+    public Pedido salvar(CriarPedidoRequestDTO dto) {
 
         Pedido pedido = new Pedido(
         dto.clienteId(),
@@ -117,9 +117,9 @@ public class PedidoGatewayImpl implements PedidoGateway{
     }
 
     @Override
-    public Optional<Pedido> consultarPedido(Long id) {
+    public Optional<Pedido> consultarPedido(Long pedidoId) {
      
-        return pedidoRepository.findById(id)
+        return pedidoRepository.findById(pedidoId)
         .map(entity -> {
             // monta o domínio completo
             return new Pedido(
@@ -140,6 +140,15 @@ public class PedidoGatewayImpl implements PedidoGateway{
             );
         });
         
+    }
+
+    @Override
+    public List<Pedido> consultarPedidosCliente(Long clienteId) {
+        
+        return pedidoRepository.findByUsuarioId(clienteId)
+            .stream()
+            .map(this::toDomain) // método que converte PedidoEntity → Pedido (domínio)
+            .toList();        
     }
 
 }

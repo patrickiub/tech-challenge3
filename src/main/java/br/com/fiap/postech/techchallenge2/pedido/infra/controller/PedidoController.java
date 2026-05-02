@@ -1,5 +1,7 @@
 package br.com.fiap.postech.techchallenge2.pedido.infra.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import br.com.fiap.postech.techchallenge2.pedido.core.dto.PedidoRequestDTO;
+
+import br.com.fiap.postech.techchallenge2.pedido.core.dto.CriarPedidoRequestDTO;
+import br.com.fiap.postech.techchallenge2.pedido.core.dto.CriarPedidoResponseDTO;
 import br.com.fiap.postech.techchallenge2.pedido.core.dto.PedidoResponseDTO;
-import br.com.fiap.postech.techchallenge2.pedido.core.gateway.ConsultarPedidoUseCase;
-import br.com.fiap.postech.techchallenge2.pedido.core.gateway.CriarPedidoUseCase;
+import br.com.fiap.postech.techchallenge2.pedido.core.usecase.ConsultarPedidoUseCase;
+import br.com.fiap.postech.techchallenge2.pedido.core.usecase.ConsultarPedidosClienteUseCase;
+import br.com.fiap.postech.techchallenge2.pedido.core.usecase.CriarPedidoUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -25,13 +30,16 @@ public class PedidoController {
 
     private final CriarPedidoUseCase criarPedidoUseCase;
     private final ConsultarPedidoUseCase consultarPedidoUseCase;
+    private final ConsultarPedidosClienteUseCase consultarPedidosClienteUseCase;
 
     public PedidoController(
             CriarPedidoUseCase criarPedidoUseCase,
-            ConsultarPedidoUseCase consultarPedidoUseCase
+            ConsultarPedidoUseCase consultarPedidoUseCase,
+            ConsultarPedidosClienteUseCase consultarPedidosClienteUseCase
     ) {
         this.criarPedidoUseCase = criarPedidoUseCase;
         this.consultarPedidoUseCase = consultarPedidoUseCase;
+        this.consultarPedidosClienteUseCase = consultarPedidosClienteUseCase;
     }
 
     @PostMapping
@@ -41,9 +49,9 @@ public class PedidoController {
         @ApiResponse(responseCode = "201", description = "Pedido criado")
         // @ApiResponse(responseCode = "400", description = "Pedido criado"),
     })
-    public PedidoResponseDTO criar(@Valid @RequestBody PedidoRequestDTO dto) {
+    public CriarPedidoResponseDTO criar(@Valid @RequestBody CriarPedidoRequestDTO dto) {
     
-        return PedidoResponseDTO.from(criarPedidoUseCase.executar(dto));
+        return CriarPedidoResponseDTO.from(criarPedidoUseCase.executar(dto));
     } 
 
     
@@ -58,7 +66,18 @@ public class PedidoController {
         return PedidoResponseDTO.from(consultarPedidoUseCase.executar(id));
     }   
 
-
     
+    @GetMapping("/cliente/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary =  "Listar todos pedidos de um cliente", description = "Pesquisa todos os pedidos de um cliente a partir de seu id")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Pedido Encontrado")        
+    })
+    public List<PedidoResponseDTO> listarPedidosCliente(@PathVariable Long id) {
+    
+        return consultarPedidosClienteUseCase.executar(id).stream()
+            .map(PedidoResponseDTO::from) // converte cada Pedido → PedidoResponseDTO
+            .toList();
+    }       
 
 }
