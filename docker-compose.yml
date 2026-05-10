@@ -80,6 +80,27 @@ services:
     networks:
       - fase3net
 
+  pagamento-service:
+    build: ./pagamento-service
+    container_name: techchallenge3-pagamento
+    ports:
+      - "8081:8081"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/techchallenge3?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      DB_USERNAME: fiap
+      DB_PASSWORD: fiap123
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      PROCPAG_URL: http://procpag:8089
+    depends_on:
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+      procpag:
+        condition: service_started
+    networks:
+      - fase3net
+
 volumes:
   mysql_data:
 
