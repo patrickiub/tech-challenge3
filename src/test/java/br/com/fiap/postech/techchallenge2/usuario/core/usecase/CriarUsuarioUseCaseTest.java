@@ -1,5 +1,6 @@
 package br.com.fiap.postech.techchallenge3.usuario.core.usecase;
 
+import br.com.fiap.postech.techchallenge3.usuario.core.domain.Role;
 import br.com.fiap.postech.techchallenge3.usuario.core.domain.TipoUsuario;
 import br.com.fiap.postech.techchallenge3.usuario.core.domain.Usuario;
 import br.com.fiap.postech.techchallenge3.usuario.core.exception.TipoUsuarioNaoEncontradoException;
@@ -33,8 +34,8 @@ class CriarUsuarioUseCaseTest {
     @Test
     void deveCriarUsuarioComSucesso() {
         TipoUsuario tipo = new TipoUsuario(1L, "Cliente");
-        Usuario entrada = new Usuario(null, "Maria", "maria@email.com", "senha123", tipo);
-        Usuario salvo = new Usuario(1L, "Maria", "maria@email.com", "senha123", tipo);
+        Usuario entrada = new Usuario(null, "Maria", "maria@email.com", "senha123", tipo, Role.ROLE_CLIENTE);
+        Usuario salvo = new Usuario(1L, "Maria", "maria@email.com", "senha123", tipo, Role.ROLE_CLIENTE);
         when(tipoUsuarioGateway.buscarPorId(1L)).thenReturn(Optional.of(tipo));
         when(usuarioGateway.salvar(entrada)).thenReturn(salvo);
 
@@ -49,7 +50,7 @@ class CriarUsuarioUseCaseTest {
     @Test
     void deveLancarExcecaoQuandoTipoUsuarioNaoEncontrado() {
         TipoUsuario tipo = new TipoUsuario(99L, null);
-        Usuario usuario = new Usuario(null, "Maria", "maria@email.com", "senha123", tipo);
+        Usuario usuario = new Usuario(null, "Maria", "maria@email.com", "senha123", tipo, Role.ROLE_CLIENTE);
         when(tipoUsuarioGateway.buscarPorId(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.executar(usuario))

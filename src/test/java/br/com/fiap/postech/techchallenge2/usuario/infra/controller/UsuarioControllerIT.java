@@ -2,6 +2,7 @@ package br.com.fiap.postech.techchallenge3.usuario.infra.controller;
 
 import br.com.fiap.postech.techchallenge3.cardapio.infra.gateway.db.repository.ItemCardapioRepository;
 import br.com.fiap.postech.techchallenge3.restaurante.infra.gateway.db.repository.RestauranteRepository;
+import br.com.fiap.postech.techchallenge3.usuario.core.domain.Role;
 import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.entity.TipoUsuarioEntity;
 import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.entity.UsuarioEntity;
 import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.repository.TipoUsuarioRepository;
@@ -77,7 +78,7 @@ class UsuarioControllerIT {
     @Test
     void deveBuscarUsuarioPorId() throws Exception {
         var tipo = tipoUsuarioRepository.findById(tipoUsuarioId).orElseThrow();
-        var usuario = usuarioRepository.save(new UsuarioEntity(null, "Maria", "maria@teste.com", "senha123", tipo));
+        var usuario = usuarioRepository.save(new UsuarioEntity(null, "Maria", "maria@teste.com", "senha123", tipo, Role.ROLE_CLIENTE));
 
         mockMvc.perform(get("/api/v1/usuarios/{id}", usuario.getId()))
                 .andExpect(status().isOk())
@@ -89,8 +90,8 @@ class UsuarioControllerIT {
     @Test
     void deveListarTodosUsuarios() throws Exception {
         var tipo = tipoUsuarioRepository.findById(tipoUsuarioId).orElseThrow();
-        usuarioRepository.save(new UsuarioEntity(null, "User1", "user1@teste.com", "senha123", tipo));
-        usuarioRepository.save(new UsuarioEntity(null, "User2", "user2@teste.com", "senha456", tipo));
+        usuarioRepository.save(new UsuarioEntity(null, "User1", "user1@teste.com", "senha123", tipo, Role.ROLE_CLIENTE));
+        usuarioRepository.save(new UsuarioEntity(null, "User2", "user2@teste.com", "senha456", tipo, Role.ROLE_CLIENTE));
 
         mockMvc.perform(get("/api/v1/usuarios"))
                 .andExpect(status().isOk())
@@ -100,7 +101,7 @@ class UsuarioControllerIT {
     @Test
     void deveAtualizarUsuario() throws Exception {
         var tipo = tipoUsuarioRepository.findById(tipoUsuarioId).orElseThrow();
-        var usuario = usuarioRepository.save(new UsuarioEntity(null, "Antigo", "antigo@teste.com", "senha123", tipo));
+        var usuario = usuarioRepository.save(new UsuarioEntity(null, "Antigo", "antigo@teste.com", "senha123", tipo, Role.ROLE_CLIENTE));
 
         var request = Map.of(
                 "nome", "Novo Nome",
@@ -120,7 +121,7 @@ class UsuarioControllerIT {
     @Test
     void deveDeletarUsuario() throws Exception {
         var tipo = tipoUsuarioRepository.findById(tipoUsuarioId).orElseThrow();
-        var usuario = usuarioRepository.save(new UsuarioEntity(null, "ParaDeletar", "deletar@teste.com", "senha123", tipo));
+        var usuario = usuarioRepository.save(new UsuarioEntity(null, "ParaDeletar", "deletar@teste.com", "senha123", tipo, Role.ROLE_CLIENTE));
 
         mockMvc.perform(delete("/api/v1/usuarios/{id}", usuario.getId()))
                 .andExpect(status().isNoContent());

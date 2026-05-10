@@ -1,5 +1,6 @@
 package br.com.fiap.postech.techchallenge3.usuario.core.usecase;
 
+import br.com.fiap.postech.techchallenge3.usuario.core.domain.Role;
 import br.com.fiap.postech.techchallenge3.usuario.core.domain.TipoUsuario;
 import br.com.fiap.postech.techchallenge3.usuario.core.domain.Usuario;
 import br.com.fiap.postech.techchallenge3.usuario.core.gateway.UsuarioGateway;
@@ -27,8 +28,8 @@ class ListarUsuariosUseCaseTest {
     void deveListarTodosUsuarios() {
         TipoUsuario tipo = new TipoUsuario(1L, "Cliente");
         List<Usuario> usuarios = List.of(
-                new Usuario(1L, "Maria", "maria@email.com", "senha123", tipo),
-                new Usuario(2L, "João", "joao@email.com", "senha456", tipo)
+                new Usuario(1L, "Maria", "maria@email.com", "senha123", tipo, Role.ROLE_CLIENTE),
+                new Usuario(2L, "João", "joao@email.com", "senha456", tipo, Role.ROLE_CLIENTE)
         );
         when(usuarioGateway.listarTodos()).thenReturn(usuarios);
 

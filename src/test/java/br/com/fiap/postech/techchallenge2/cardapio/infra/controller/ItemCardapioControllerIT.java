@@ -5,6 +5,7 @@ import br.com.fiap.postech.techchallenge3.cardapio.infra.gateway.db.entity.ItemC
 import br.com.fiap.postech.techchallenge3.cardapio.infra.gateway.db.repository.ItemCardapioRepository;
 import br.com.fiap.postech.techchallenge3.restaurante.infra.gateway.db.entity.RestauranteEntity;
 import br.com.fiap.postech.techchallenge3.restaurante.infra.gateway.db.repository.RestauranteRepository;
+import br.com.fiap.postech.techchallenge3.usuario.core.domain.Role;
 import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.entity.TipoUsuarioEntity;
 import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.entity.UsuarioEntity;
 import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.repository.TipoUsuarioRepository;
@@ -56,7 +57,7 @@ class ItemCardapioControllerIT {
         tipoUsuarioRepository.deleteAll();
 
         var tipo = tipoUsuarioRepository.save(new TipoUsuarioEntity(null, "Proprietario"));
-        var usuario = usuarioRepository.save(new UsuarioEntity(null, "Chef", "chef@restaurante.com", "senha123", tipo));
+        var usuario = usuarioRepository.save(new UsuarioEntity(null, "Chef", "chef@restaurante.com", "senha123", tipo, Role.ROLE_CLIENTE));
         var restaurante = restauranteRepository.save(
                 new RestauranteEntity(null, "Restaurante Principal", "Brasileira", "Av. Central, 1", "11h-22h", usuario)
         );

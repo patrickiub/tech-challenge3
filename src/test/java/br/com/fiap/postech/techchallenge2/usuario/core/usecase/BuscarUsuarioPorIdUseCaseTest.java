@@ -1,5 +1,6 @@
 package br.com.fiap.postech.techchallenge3.usuario.core.usecase;
 
+import br.com.fiap.postech.techchallenge3.usuario.core.domain.Role;
 import br.com.fiap.postech.techchallenge3.usuario.core.domain.TipoUsuario;
 import br.com.fiap.postech.techchallenge3.usuario.core.domain.Usuario;
 import br.com.fiap.postech.techchallenge3.usuario.core.exception.UsuarioNaoEncontradoException;
@@ -29,7 +30,7 @@ class BuscarUsuarioPorIdUseCaseTest {
     void deveBuscarUsuarioPorIdComSucesso() {
         Long id = 1L;
         TipoUsuario tipo = new TipoUsuario(1L, "Cliente");
-        Usuario usuario = new Usuario(id, "Maria", "maria@email.com", "senha123", tipo);
+        Usuario usuario = new Usuario(id, "Maria", "maria@email.com", "senha123", tipo, Role.ROLE_CLIENTE);
         when(usuarioGateway.buscarPorId(id)).thenReturn(Optional.of(usuario));
 
         Usuario resultado = useCase.executar(id);

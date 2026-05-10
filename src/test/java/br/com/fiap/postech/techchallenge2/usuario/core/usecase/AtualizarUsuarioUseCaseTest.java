@@ -1,5 +1,6 @@
 package br.com.fiap.postech.techchallenge3.usuario.core.usecase;
 
+import br.com.fiap.postech.techchallenge3.usuario.core.domain.Role;
 import br.com.fiap.postech.techchallenge3.usuario.core.domain.TipoUsuario;
 import br.com.fiap.postech.techchallenge3.usuario.core.domain.Usuario;
 import br.com.fiap.postech.techchallenge3.usuario.core.exception.TipoUsuarioNaoEncontradoException;
@@ -35,8 +36,8 @@ class AtualizarUsuarioUseCaseTest {
     void deveAtualizarUsuarioComSucesso() {
         Long id = 1L;
         TipoUsuario tipo = new TipoUsuario(1L, "Cliente");
-        Usuario entrada = new Usuario(null, "Maria Atualizada", "maria@email.com", "senha123", tipo);
-        Usuario atualizado = new Usuario(id, "Maria Atualizada", "maria@email.com", "senha123", tipo);
+        Usuario entrada = new Usuario(null, "Maria Atualizada", "maria@email.com", "senha123", tipo, Role.ROLE_CLIENTE);
+        Usuario atualizado = new Usuario(id, "Maria Atualizada", "maria@email.com", "senha123", tipo, Role.ROLE_CLIENTE);
         when(usuarioGateway.existePorId(id)).thenReturn(true);
         when(tipoUsuarioGateway.buscarPorId(1L)).thenReturn(Optional.of(tipo));
         when(usuarioGateway.salvar(entrada)).thenReturn(atualizado);
@@ -52,7 +53,7 @@ class AtualizarUsuarioUseCaseTest {
     void deveLancarExcecaoQuandoUsuarioNaoEncontrado() {
         Long id = 99L;
         TipoUsuario tipo = new TipoUsuario(1L, "Cliente");
-        Usuario usuario = new Usuario(null, "Maria", "maria@email.com", "senha123", tipo);
+        Usuario usuario = new Usuario(null, "Maria", "maria@email.com", "senha123", tipo, Role.ROLE_CLIENTE);
         when(usuarioGateway.existePorId(id)).thenReturn(false);
 
         assertThatThrownBy(() -> useCase.executar(id, usuario))
@@ -66,7 +67,7 @@ class AtualizarUsuarioUseCaseTest {
     void deveLancarExcecaoQuandoTipoUsuarioNaoEncontrado() {
         Long id = 1L;
         TipoUsuario tipo = new TipoUsuario(99L, null);
-        Usuario usuario = new Usuario(null, "Maria", "maria@email.com", "senha123", tipo);
+        Usuario usuario = new Usuario(null, "Maria", "maria@email.com", "senha123", tipo, Role.ROLE_CLIENTE);
         when(usuarioGateway.existePorId(id)).thenReturn(true);
         when(tipoUsuarioGateway.buscarPorId(99L)).thenReturn(Optional.empty());
 
