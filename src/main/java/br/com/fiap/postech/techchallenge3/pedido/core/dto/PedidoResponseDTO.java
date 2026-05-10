@@ -1,4 +1,4 @@
-﻿package br.com.fiap.postech.techchallenge3.pedido.core.dto;
+package br.com.fiap.postech.techchallenge3.pedido.core.dto;
 
 import java.math.BigDecimal;
 import java.util.List;

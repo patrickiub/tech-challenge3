@@ -1,4 +1,4 @@
-﻿package br.com.fiap.postech.techchallenge3.pedido.infra.gateway;
+package br.com.fiap.postech.techchallenge3.pedido.infra.gateway;
 
 import java.util.List;
 import java.util.Optional;

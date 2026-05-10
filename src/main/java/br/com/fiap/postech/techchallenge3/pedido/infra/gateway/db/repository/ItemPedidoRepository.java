@@ -1,4 +1,4 @@
-﻿package br.com.fiap.postech.techchallenge3.pedido.infra.gateway.db.repository;
+package br.com.fiap.postech.techchallenge3.pedido.infra.gateway.db.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

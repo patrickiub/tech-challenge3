@@ -1,4 +1,4 @@
-﻿package br.com.fiap.postech.techchallenge3.pedido.core.domain;
+package br.com.fiap.postech.techchallenge3.pedido.core.domain;
 
 import java.math.BigDecimal;
 

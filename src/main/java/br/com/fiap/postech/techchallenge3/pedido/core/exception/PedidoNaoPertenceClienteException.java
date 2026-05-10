@@ -1,4 +1,4 @@
-﻿package br.com.fiap.postech.techchallenge3.pedido.core.exception;
+package br.com.fiap.postech.techchallenge3.pedido.core.exception;
 
 public class PedidoNaoPertenceClienteException extends RuntimeException {
 

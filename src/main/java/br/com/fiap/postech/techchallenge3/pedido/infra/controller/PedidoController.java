@@ -1,4 +1,4 @@
-﻿package br.com.fiap.postech.techchallenge3.pedido.infra.controller;
+package br.com.fiap.postech.techchallenge3.pedido.infra.controller;
 
 import java.util.List;
 

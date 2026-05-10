@@ -1,4 +1,4 @@
-﻿package br.com.fiap.postech.techchallenge3.pedido.core.usecase;
+package br.com.fiap.postech.techchallenge3.pedido.core.usecase;
 
 import org.springframework.stereotype.Service;
 

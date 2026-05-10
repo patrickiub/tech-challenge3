@@ -1,4 +1,4 @@
-﻿package br.com.fiap.postech.techchallenge3.pedido.infra.gateway.db.entity;
+package br.com.fiap.postech.techchallenge3.pedido.infra.gateway.db.entity;
 
 import java.math.BigDecimal;
 
