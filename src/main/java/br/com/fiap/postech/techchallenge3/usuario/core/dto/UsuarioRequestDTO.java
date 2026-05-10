@@ -1,5 +1,6 @@
 package br.com.fiap.postech.techchallenge3.usuario.core.dto;
 
+import br.com.fiap.postech.techchallenge3.usuario.core.domain.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,8 @@ public record UsuarioRequestDTO(
         String senha,
 
         @NotNull(message = "Tipo de usuário é obrigatório")
-        Long tipoUsuarioId
+        Long tipoUsuarioId,
+
+        Role role
 ) {
 }

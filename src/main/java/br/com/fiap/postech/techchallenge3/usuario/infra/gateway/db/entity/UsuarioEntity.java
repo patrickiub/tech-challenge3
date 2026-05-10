@@ -1,5 +1,6 @@
 package br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.entity;
 
+import br.com.fiap.postech.techchallenge3.usuario.core.domain.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,4 +31,8 @@ public class UsuarioEntity {
     @ManyToOne
     @JoinColumn(name = "tipo_usuario_id", nullable = false)
     private TipoUsuarioEntity tipoUsuario;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", length = 20)
+    private Role role;
 }

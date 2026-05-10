@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,18 +28,21 @@ public class UsuarioController {
     private final ListarUsuariosUseCase listarUsuariosUseCase;
     private final AtualizarUsuarioUseCase atualizarUsuarioUseCase;
     private final DeletarUsuarioUseCase deletarUsuarioUseCase;
+    private final PasswordEncoder passwordEncoder;
 
     public UsuarioController(
             CriarUsuarioUseCase criarUsuarioUseCase,
             BuscarUsuarioPorIdUseCase buscarUsuarioPorIdUseCase,
             ListarUsuariosUseCase listarUsuariosUseCase,
             AtualizarUsuarioUseCase atualizarUsuarioUseCase,
-            DeletarUsuarioUseCase deletarUsuarioUseCase) {
+            DeletarUsuarioUseCase deletarUsuarioUseCase,
+            PasswordEncoder passwordEncoder) {
         this.criarUsuarioUseCase = criarUsuarioUseCase;
         this.buscarUsuarioPorIdUseCase = buscarUsuarioPorIdUseCase;
         this.listarUsuariosUseCase = listarUsuariosUseCase;
         this.atualizarUsuarioUseCase = atualizarUsuarioUseCase;
         this.deletarUsuarioUseCase = deletarUsuarioUseCase;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping
@@ -49,8 +53,8 @@ public class UsuarioController {
             @ApiResponse(responseCode = "400", description = "Dados inválidos na requisição")
     })
     public UsuarioResponseDTO criar(@Valid @RequestBody UsuarioRequestDTO dto) {
-        Usuario usuario = new Usuario(null, dto.nome(), dto.email(), dto.senha(),
-                new TipoUsuario(dto.tipoUsuarioId(), null));
+        Usuario usuario = new Usuario(null, dto.nome(), dto.email(), passwordEncoder.encode(dto.senha()),
+                new TipoUsuario(dto.tipoUsuarioId(), null), dto.role());
         return UsuarioResponseDTO.from(criarUsuarioUseCase.executar(usuario));
     }
 
@@ -81,8 +85,8 @@ public class UsuarioController {
             @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
     })
     public UsuarioResponseDTO atualizar(@Parameter(description = "ID do usuário", required = true) @PathVariable Long id, @Valid @RequestBody UsuarioRequestDTO dto) {
-        Usuario usuario = new Usuario(id, dto.nome(), dto.email(), dto.senha(),
-                new TipoUsuario(dto.tipoUsuarioId(), null));
+        Usuario usuario = new Usuario(id, dto.nome(), dto.email(), passwordEncoder.encode(dto.senha()),
+                new TipoUsuario(dto.tipoUsuarioId(), null), dto.role());
         return UsuarioResponseDTO.from(atualizarUsuarioUseCase.executar(id, usuario));
     }
 

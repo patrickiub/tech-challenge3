@@ -15,4 +15,5 @@ public class Usuario {
     private String email;
     private String senha;
     private TipoUsuario tipoUsuario;
+    private Role role;
 }

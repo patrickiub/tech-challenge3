@@ -26,12 +26,12 @@ public class UsuarioGatewayImpl implements UsuarioGateway {
 
     private UsuarioEntity toEntity(Usuario usuario) {
         TipoUsuarioEntity tipoEntity = tipoUsuarioRepository.getReferenceById(usuario.getTipoUsuario().getId());
-        return new UsuarioEntity(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha(), tipoEntity);
+        return new UsuarioEntity(usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getSenha(), tipoEntity, usuario.getRole());
     }
 
     private Usuario toDomain(UsuarioEntity entity) {
         TipoUsuario tipo = new TipoUsuario(entity.getTipoUsuario().getId(), entity.getTipoUsuario().getNome());
-        return new Usuario(entity.getId(), entity.getNome(), entity.getEmail(), entity.getSenha(), tipo);
+        return new Usuario(entity.getId(), entity.getNome(), entity.getEmail(), entity.getSenha(), tipo, entity.getRole());
     }
 
     @Override
@@ -42,6 +42,11 @@ public class UsuarioGatewayImpl implements UsuarioGateway {
     @Override
     public Optional<Usuario> buscarPorId(Long id) {
         return repository.findById(id).map(this::toDomain);
+    }
+
+    @Override
+    public Optional<Usuario> buscarPorEmail(String email) {
+        return repository.findByEmail(email).map(this::toDomain);
     }
 
     @Override
