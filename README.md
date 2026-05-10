@@ -147,7 +147,7 @@ Variáveis de ambiente configuradas no `docker-compose.yml`:
 
 | Variável | Valor padrão |
 |---|---|
-| `DB_URL` | `jdbc:mysql://mysql:3306/techchallenge2?...` |
+| `DB_URL` | `jdbc:mysql://mysql:3306/techchallenge3?...` |
 | `DB_USERNAME` | `fiap` |
 | `DB_PASSWORD` | `fiap123` |
 | `DDL_AUTO` | `update` |
@@ -157,7 +157,7 @@ Variáveis de ambiente configuradas no `docker-compose.yml`:
 
 ### Opção 2 — Execução local (sem Docker)
 
-**Pré-requisitos:** MySQL 8.0 rodando em `localhost:3306` com banco `techchallenge2`, usuário `fiap` e senha `fiap123` (ou configure as variáveis de ambiente abaixo).
+**Pré-requisitos:** MySQL 8.0 rodando em `localhost:3306` com banco `techchallenge3`, usuário `fiap` e senha `fiap123` (ou configure as variáveis de ambiente abaixo).
 
 ```bash
 ./mvnw spring-boot:run
@@ -168,7 +168,7 @@ Para sobrescrever as configurações de banco:
 ```bash
 ./mvnw spring-boot:run \
   -Dspring-boot.run.jvmArguments="\
-    -DDB_URL=jdbc:mysql://localhost:3306/techchallenge2?createDatabaseIfNotExist=true&useSSL=false \
+    -DDB_URL=jdbc:mysql://localhost:3306/techchallenge3?createDatabaseIfNotExist=true&useSSL=false \
     -DDB_USERNAME=seu_usuario \
     -DDB_PASSWORD=sua_senha"
 ```
@@ -227,7 +227,7 @@ tech-challenge2/
 ├── src/
 │   ├── main/
 │   │   ├── java/.../
-│   │   │   ├── TechChallenge2Application.java
+│   │   │   ├── TechChallenge3Application.java
 │   │   │   ├── GlobalExceptionHandler.java
 │   │   │   ├── usuario/
 │   │   │   ├── restaurante/

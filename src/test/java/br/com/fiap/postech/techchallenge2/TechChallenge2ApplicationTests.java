@@ -1,10 +1,10 @@
-package br.com.fiap.postech.techchallenge2;
+package br.com.fiap.postech.techchallenge3;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TechChallenge2ApplicationTests {
+class TechChallenge3ApplicationTests {
 
 	@Test
 	void contextLoads() {

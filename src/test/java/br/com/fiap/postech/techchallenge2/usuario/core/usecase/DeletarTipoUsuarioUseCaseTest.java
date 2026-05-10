@@ -1,7 +1,7 @@
-package br.com.fiap.postech.techchallenge2.usuario.core.usecase;
+package br.com.fiap.postech.techchallenge3.usuario.core.usecase;
 
-import br.com.fiap.postech.techchallenge2.usuario.core.exception.TipoUsuarioNaoEncontradoException;
-import br.com.fiap.postech.techchallenge2.usuario.core.gateway.TipoUsuarioGateway;
+import br.com.fiap.postech.techchallenge3.usuario.core.exception.TipoUsuarioNaoEncontradoException;
+import br.com.fiap.postech.techchallenge3.usuario.core.gateway.TipoUsuarioGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

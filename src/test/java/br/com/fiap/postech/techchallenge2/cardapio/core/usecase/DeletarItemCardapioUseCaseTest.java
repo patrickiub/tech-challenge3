@@ -1,7 +1,7 @@
-package br.com.fiap.postech.techchallenge2.cardapio.core.usecase;
+package br.com.fiap.postech.techchallenge3.cardapio.core.usecase;
 
-import br.com.fiap.postech.techchallenge2.cardapio.core.exception.ItemCardapioNaoEncontradoException;
-import br.com.fiap.postech.techchallenge2.cardapio.core.gateway.ItemCardapioGateway;
+import br.com.fiap.postech.techchallenge3.cardapio.core.exception.ItemCardapioNaoEncontradoException;
+import br.com.fiap.postech.techchallenge3.cardapio.core.gateway.ItemCardapioGateway;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

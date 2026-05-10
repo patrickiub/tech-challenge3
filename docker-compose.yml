@@ -1,9 +1,9 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: techchallenge2-mysql
+    container_name: techchallenge3-mysql
     environment:
-      MYSQL_DATABASE: techchallenge2
+      MYSQL_DATABASE: techchallenge3
       MYSQL_USER: fiap
       MYSQL_PASSWORD: fiap123
       MYSQL_ROOT_PASSWORD: root
@@ -17,14 +17,16 @@ services:
       timeout: 5s
       retries: 10
       start_period: 30s
+    networks:
+      - fase3net
 
   app:
     build: .
-    container_name: techchallenge2-app
+    container_name: techchallenge3-app
     ports:
       - "8080:8080"
     environment:
-      DB_URL: jdbc:mysql://mysql:3306/techchallenge2?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      DB_URL: jdbc:mysql://mysql:3306/techchallenge3?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       DB_USERNAME: fiap
       DB_PASSWORD: fiap123
       DDL_AUTO: update
@@ -32,6 +34,19 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    networks:
+      - fase3net
+
+  procpag:
+    image: docker.io/erickemprobr/procpag:latest
+    platform: linux/amd64
+    ports:
+      - "8089:8089"
+    networks:
+      - fase3net
 
 volumes:
   mysql_data:
+
+networks:
+  fase3net:

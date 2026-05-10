@@ -1,12 +1,12 @@
-package br.com.fiap.postech.techchallenge2.restaurante.infra.controller;
+package br.com.fiap.postech.techchallenge3.restaurante.infra.controller;
 
-import br.com.fiap.postech.techchallenge2.cardapio.infra.gateway.db.repository.ItemCardapioRepository;
-import br.com.fiap.postech.techchallenge2.restaurante.infra.gateway.db.entity.RestauranteEntity;
-import br.com.fiap.postech.techchallenge2.restaurante.infra.gateway.db.repository.RestauranteRepository;
-import br.com.fiap.postech.techchallenge2.usuario.infra.gateway.db.entity.TipoUsuarioEntity;
-import br.com.fiap.postech.techchallenge2.usuario.infra.gateway.db.entity.UsuarioEntity;
-import br.com.fiap.postech.techchallenge2.usuario.infra.gateway.db.repository.TipoUsuarioRepository;
-import br.com.fiap.postech.techchallenge2.usuario.infra.gateway.db.repository.UsuarioRepository;
+import br.com.fiap.postech.techchallenge3.cardapio.infra.gateway.db.repository.ItemCardapioRepository;
+import br.com.fiap.postech.techchallenge3.restaurante.infra.gateway.db.entity.RestauranteEntity;
+import br.com.fiap.postech.techchallenge3.restaurante.infra.gateway.db.repository.RestauranteRepository;
+import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.entity.TipoUsuarioEntity;
+import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.entity.UsuarioEntity;
+import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.repository.TipoUsuarioRepository;
+import br.com.fiap.postech.techchallenge3.usuario.infra.gateway.db.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
