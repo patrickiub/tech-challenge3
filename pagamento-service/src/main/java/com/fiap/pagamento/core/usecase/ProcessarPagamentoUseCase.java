@@ -33,7 +33,7 @@ public class ProcessarPagamentoUseCase {
     @Retry(name = "procpag")
     public void processar(PagamentoEvent event) {
         RequisicaoProcpagDTO requisicao = new RequisicaoProcpagDTO(
-                event.getValor(), event.getPedidoId(), event.getClienteId());
+                event.getValorTotal(), event.getPedidoId(), event.getClienteId());
 
         boolean aprovado = procpagClient.processar(requisicao);
 
@@ -43,11 +43,11 @@ public class ProcessarPagamentoUseCase {
 
         LocalDateTime agora = LocalDateTime.now();
         Pagamento pagamento = new Pagamento(null, event.getPedidoId(), event.getClienteId(),
-                event.getValor(), StatusPagamento.APROVADO, agora);
+                event.getValorTotal(), StatusPagamento.APROVADO, agora);
         pagamentoGateway.salvar(pagamento);
 
         kafkaProducer.publicarAprovado(new PagamentoAprovadoEvent(
-                event.getPedidoId(), event.getClienteId(), event.getValor(), agora));
+                event.getPedidoId(), event.getClienteId(), event.getValorTotal(), agora));
     }
 
     public void fallbackPagamento(PagamentoEvent event, Throwable t) {
@@ -57,10 +57,10 @@ public class ProcessarPagamentoUseCase {
     private void salvarPendente(PagamentoEvent event) {
         LocalDateTime agora = LocalDateTime.now();
         Pagamento pagamento = new Pagamento(null, event.getPedidoId(), event.getClienteId(),
-                event.getValor(), StatusPagamento.PENDENTE, agora);
+                event.getValorTotal(), StatusPagamento.PENDENTE, agora);
         pagamentoGateway.salvar(pagamento);
 
         kafkaProducer.publicarPendente(new PagamentoPendenteEvent(
-                event.getPedidoId(), event.getClienteId(), event.getValor(), 1, agora));
+                event.getPedidoId(), event.getClienteId(), event.getValorTotal(), 1, agora));
     }
 }

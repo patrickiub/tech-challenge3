@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,5 +15,7 @@ import java.math.BigDecimal;
 public class PagamentoEvent {
     private String pedidoId;
     private String clienteId;
-    private BigDecimal valor;
+    private String restauranteId;
+    private BigDecimal valorTotal;
+    private List<Object> itens;
 }
