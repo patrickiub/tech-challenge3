@@ -19,8 +19,9 @@ public class PagamentoKafkaConsumer {
         this.pedidoGateway = pedidoGateway;
     }
 
-    @KafkaListener(topics = "pagamento.aprovado", groupId = "pedido-service")
-    public void consumirAprovado(PagamentoAprovadoEvent event) {
+    @KafkaListener(topics = "pagamento.aprovado", groupId = "pedido-service",
+            containerFactory = "pagamentoAprovadoFactory")
+    public void onPagamentoAprovado(PagamentoAprovadoEvent event) {
         log.info("Evento pagamento.aprovado recebido: pedidoId={}", event.getPedidoId());
         Long pedidoId = Long.parseLong(event.getPedidoId());
         Pedido pedido = pedidoGateway.consultarPedido(pedidoId)
@@ -30,8 +31,9 @@ public class PagamentoKafkaConsumer {
         log.info("Pedido {} atualizado para PAGO", pedidoId);
     }
 
-    @KafkaListener(topics = "pagamento.pendente", groupId = "pedido-service")
-    public void consumirPendente(PagamentoPendenteEvent event) {
+    @KafkaListener(topics = "pagamento.pendente", groupId = "pedido-service",
+            containerFactory = "pagamentoPendenteFactory")
+    public void onPagamentoPendente(PagamentoPendenteEvent event) {
         log.info("Evento pagamento.pendente recebido: pedidoId={}, tentativas={}", event.getPedidoId(), event.getTentativas());
         Long pedidoId = Long.parseLong(event.getPedidoId());
         Pedido pedido = pedidoGateway.consultarPedido(pedidoId)
