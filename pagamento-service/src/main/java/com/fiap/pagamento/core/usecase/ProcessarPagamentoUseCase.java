@@ -11,10 +11,12 @@ import com.fiap.pagamento.infra.client.ProcpagClient;
 import com.fiap.pagamento.infra.kafka.producer.PagamentoKafkaProducer;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 public class ProcessarPagamentoUseCase {
 
@@ -32,6 +34,7 @@ public class ProcessarPagamentoUseCase {
     @CircuitBreaker(name = "procpag", fallbackMethod = "fallbackPagamento")
     @Retry(name = "procpag")
     public void processar(PagamentoEvent event) {
+        log.info("Chamando procpag para pedidoId={}, valor={}", event.getPedidoId(), event.getValorTotal());
         RequisicaoProcpagDTO requisicao = new RequisicaoProcpagDTO(
                 event.getValorTotal(), event.getPedidoId(), event.getClienteId());
 
@@ -41,6 +44,7 @@ public class ProcessarPagamentoUseCase {
             throw new RuntimeException("Pagamento recusado pelo procpag para pedido: " + event.getPedidoId());
         }
 
+        log.info("Pagamento aprovado para pedidoId={}", event.getPedidoId());
         LocalDateTime agora = LocalDateTime.now();
         Pagamento pagamento = new Pagamento(null, event.getPedidoId(), event.getClienteId(),
                 event.getValorTotal(), StatusPagamento.APROVADO, agora);
@@ -51,6 +55,7 @@ public class ProcessarPagamentoUseCase {
     }
 
     public void fallbackPagamento(PagamentoEvent event, Throwable t) {
+        log.error("Fallback ativado para pedidoId={}: {}", event.getPedidoId(), t.getMessage(), t);
         salvarPendente(event);
     }
 
