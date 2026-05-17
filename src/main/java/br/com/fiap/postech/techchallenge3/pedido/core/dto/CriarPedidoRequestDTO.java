@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 
 public record CriarPedidoRequestDTO(
 
-    @NotNull(message = "Cliente Ã© obrigatÃ³rio")
     Long clienteId,
 
     @NotNull(message = "Restaurante Ã© obrigatÃ³rio")

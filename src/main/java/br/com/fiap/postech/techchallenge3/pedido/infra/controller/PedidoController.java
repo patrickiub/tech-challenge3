@@ -3,6 +3,7 @@ package br.com.fiap.postech.techchallenge3.pedido.infra.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,9 +68,10 @@ public class PedidoController {
         @ApiResponse(responseCode = "201", description = "Pedido criado")
         // @ApiResponse(responseCode = "400", description = "Pedido criado"),
     })
-    public CriarPedidoResponseDTO criar(@Valid @RequestBody CriarPedidoRequestDTO dto) {
-    
-        return CriarPedidoResponseDTO.from(criarPedidoUseCase.executar(dto));
+    public CriarPedidoResponseDTO criar(@Valid @RequestBody CriarPedidoRequestDTO dto, Authentication authentication) {
+        Long clienteId = Long.parseLong(authentication.getName());
+        CriarPedidoRequestDTO dtoComCliente = new CriarPedidoRequestDTO(clienteId, dto.restauranteId(), dto.itens());
+        return CriarPedidoResponseDTO.from(criarPedidoUseCase.executar(dtoComCliente));
     } 
 
     
