@@ -85,16 +85,16 @@ public class PedidoController {
     }   
 
     
-    @GetMapping("/cliente/{id}")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary =  "Listar todos pedidos de um cliente", description = "Pesquisa todos os pedidos de um cliente a partir de seu id")
+    @Operation(summary =  "Listar todos pedidos do cliente autenticado", description = "Retorna todos os pedidos do cliente extraindo o id do token JWT")
     @ApiResponses({
-        @ApiResponse(responseCode = "200", description = "Pedido Encontrado")        
+        @ApiResponse(responseCode = "200", description = "Pedidos encontrados")
     })
-    public List<PedidoResponseDTO> listarPedidosCliente(@PathVariable Long id) {
-    
-        return consultarPedidosClienteUseCase.executar(id).stream()
-            .map(PedidoResponseDTO::from) // converte cada Pedido â†’ PedidoResponseDTO
+    public List<PedidoResponseDTO> listarPedidosCliente(Authentication authentication) {
+        Long clienteId = Long.parseLong(authentication.getName());
+        return consultarPedidosClienteUseCase.executar(clienteId).stream()
+            .map(PedidoResponseDTO::from)
             .toList();
     }       
 
