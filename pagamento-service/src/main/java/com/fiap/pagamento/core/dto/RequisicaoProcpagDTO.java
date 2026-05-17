@@ -6,14 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequisicaoProcpagDTO {
-    private BigDecimal valor;
+    private Long valor;
 
     @JsonProperty("pagamento_id")
     private String pagamentoId;

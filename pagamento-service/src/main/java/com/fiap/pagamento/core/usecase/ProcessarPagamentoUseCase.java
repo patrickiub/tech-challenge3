@@ -36,7 +36,7 @@ public class ProcessarPagamentoUseCase {
     public void processar(PagamentoEvent event) {
         log.info("Chamando procpag para pedidoId={}, valor={}", event.getPedidoId(), event.getValorTotal());
         RequisicaoProcpagDTO requisicao = new RequisicaoProcpagDTO(
-                event.getValorTotal(), event.getPedidoId(), event.getClienteId());
+                event.getValorTotal().longValue(), event.getPedidoId(), event.getClienteId());
 
         boolean aprovado = procpagClient.processar(requisicao);
 
