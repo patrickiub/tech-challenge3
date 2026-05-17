@@ -153,10 +153,10 @@ public class PedidoGatewayImpl implements PedidoGateway{
 
     @Override
     public Pedido atualizarStatus(Pedido pedido) {
-        // aqui o pedido jÃ¡ vem validado e com status alterado pelo UseCase
-        PedidoEntity entity = toEntity(pedido);
-        PedidoEntity atualizado = pedidoRepository.save(entity);
-        return toDomain(atualizado);
+        PedidoEntity entity = pedidoRepository.findById(pedido.getId())
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado: " + pedido.getId()));
+        entity.setStatus(pedido.getStatus());
+        return toDomain(pedidoRepository.save(entity));
     }
 
 }
