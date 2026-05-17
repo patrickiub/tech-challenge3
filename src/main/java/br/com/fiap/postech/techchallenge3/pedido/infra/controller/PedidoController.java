@@ -54,10 +54,8 @@ public class PedidoController {
         @ApiResponse(responseCode = "201", description = "Pedido confirmado")
         // @ApiResponse(responseCode = "400", description = "Pedido criado"),
     })
-    public PedidoResponseDTO confirmarPedido(@PathVariable Long id) {
-        
-        Long clienteId = 2L;
-
+    public PedidoResponseDTO confirmarPedido(@PathVariable Long id, Authentication authentication) {
+        Long clienteId = Long.parseLong(authentication.getName());
         return PedidoResponseDTO.from(confirmarPedidoUseCase.executar(id, clienteId));
     } 
 
