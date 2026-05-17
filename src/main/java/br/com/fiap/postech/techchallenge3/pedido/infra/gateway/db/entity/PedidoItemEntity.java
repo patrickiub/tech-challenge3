@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import br.com.fiap.postech.techchallenge3.cardapio.infra.gateway.db.entity.ItemCardapioEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,7 +29,7 @@ public class PedidoItemEntity {
     @JoinColumn(name = "pedido_id", nullable = false)
     private PedidoEntity pedido;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "item_cardapio_id", nullable = false)
     private ItemCardapioEntity itemCardapio;
 
