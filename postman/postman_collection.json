@@ -225,7 +225,7 @@
                 {
                   "listen": "test",
                   "script": {
-                    "exec": ["var json = pm.response.json();", "pm.collectionVariables.set(\"token\", json.token);", "console.log(\"Token salvo automaticamente: \" + json.token);"],
+                    "exec": ["var json = pm.response.json();", "if (pm.response.code === 200 && json.token) {", "  pm.collectionVariables.set(\"token\", json.token);", "  console.log(\"Token salvo automaticamente!\");", "}"],
                     "type": "text/javascript"
                   }
                 }
