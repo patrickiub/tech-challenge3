@@ -530,3 +530,9 @@ Cada endpoint possui exemplos salvos de respostas de sucesso (✅) e erro (❌) 
 | `PAGO` | Pagamento aprovado pelo procpag |
 | `PENDENTE_PAGAMENTO` | procpag indisponível, aguardando reprocessamento automático |
 | `CONFIRMADO` | Pedido confirmado pelo cliente |
+
+---
+
+## 11. Vídeo de Apresentação
+
+LINK AQUI
