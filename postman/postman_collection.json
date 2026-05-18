@@ -1,220 +1,273 @@
 {
   "info": {
-    "name": "Tech Challenge 2 — API REST",
+    "name": "Tech Challenge — API REST (Fase 2 + Fase 3)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:8080",
-      "type": "string"
-    }
+    { "key": "base_url", "value": "http://localhost:8080", "type": "string" },
+    { "key": "token", "value": "", "type": "string" }
   ],
   "item": [
     {
-      "name": "Tipos de Usuario",
+      "name": "Fase 2",
       "item": [
         {
-          "name": "Criar tipo de usuário",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{base_url}}/api/v1/tipos-usuario", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuario"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Dono de Restaurante\"\n}"
+          "name": "Tipos de Usuario",
+          "item": [
+            {
+              "name": "Criar tipo de usuário",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }],
+                "url": { "raw": "{{base_url}}/api/v1/tipos-usuario", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario"] },
+                "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Dono de Restaurante\"\n}" }
+              },
+              "response": [
+                {
+                  "name": "✅ 201 — Tipo criado com sucesso",
+                  "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Dono de Restaurante\"\n}" } },
+                  "status": "Created", "code": 201,
+                  "header": [{ "key": "Content-Type", "value": "application/json" }],
+                  "body": "{\n  \"id\": 1,\n  \"nome\": \"Dono de Restaurante\"\n}"
+                },
+                {
+                  "name": "❌ 400 — Nome vazio",
+                  "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"\"\n}" } },
+                  "status": "Bad Request", "code": 400,
+                  "header": [{ "key": "Content-Type", "value": "application/json" }],
+                  "body": "{ \"status\": 400, \"mensagem\": \"Nome nao pode ser vazio\" }"
+                }
+              ]
+            },
+            {
+              "name": "Listar todos os tipos de usuário",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario"] } },
+              "response": [
+                { "name": "✅ 200 — Lista retornada", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "[\n  { \"id\": 1, \"nome\": \"Dono de Restaurante\" },\n  { \"id\": 2, \"nome\": \"Cliente\" }\n]" }
+              ]
+            },
+            {
+              "name": "Buscar tipo de usuário por ID",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/1", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario","1"] } },
+              "response": [
+                { "name": "✅ 200 — Tipo encontrado", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/1", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario","1"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 1, \"nome\": \"Dono de Restaurante\" }" },
+                { "name": "❌ 404 — Tipo não encontrado", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/999", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario","999"] } }, "status": "Not Found", "code": 404, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 404, \"mensagem\": \"Tipo de usuario nao encontrado\" }" }
+              ]
+            },
+            {
+              "name": "Atualizar tipo de usuário",
+              "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/1", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario","1"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Cliente\"\n}" } },
+              "response": [
+                { "name": "✅ 200 — Tipo atualizado", "originalRequest": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/1", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario","1"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Cliente\"\n}" } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 1, \"nome\": \"Cliente\" }" }
+              ]
+            },
+            {
+              "name": "Deletar tipo de usuário",
+              "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/1", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario","1"] } },
+              "response": [
+                { "name": "✅ 204 — Tipo deletado", "originalRequest": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/1", "host": ["{{base_url}}"], "path": ["api","v1","tipos-usuario","1"] } }, "status": "No Content", "code": 204, "header": [], "body": "" }
+              ]
             }
-          }
+          ]
         },
         {
-          "name": "Listar todos os tipos de usuário",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/tipos-usuario", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuario"] }
-          }
-        },
-        {
-          "name": "Buscar tipo de usuário por ID",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/1", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuario", "1"] }
-          }
-        },
-        {
-          "name": "Atualizar tipo de usuário",
-          "request": {
-            "method": "PUT",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/1", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuario", "1"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Cliente\"\n}"
+          "name": "Usuarios",
+          "item": [
+            {
+              "name": "Criar usuário",
+              "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios", "host": ["{{base_url}}"], "path": ["api","v1","usuarios"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Joao Silva\",\n  \"email\": \"joao.silva@email.com\",\n  \"senha\": \"senha123\",\n  \"tipoUsuarioId\": 1\n}" } },
+              "response": [
+                { "name": "✅ 201 — Usuário criado", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios", "host": ["{{base_url}}"], "path": ["api","v1","usuarios"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Joao Silva\",\n  \"email\": \"joao.silva@email.com\",\n  \"senha\": \"senha123\",\n  \"tipoUsuarioId\": 1\n}" } }, "status": "Created", "code": 201, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{\n  \"id\": 1,\n  \"nome\": \"Joao Silva\",\n  \"email\": \"joao.silva@email.com\",\n  \"tipoUsuario\": { \"id\": 1, \"nome\": \"Dono de Restaurante\" }\n}" },
+                { "name": "❌ 400 — Email inválido", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios", "host": ["{{base_url}}"], "path": ["api","v1","usuarios"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Joao\",\n  \"email\": \"email-invalido\",\n  \"senha\": \"senha123\",\n  \"tipoUsuarioId\": 1\n}" } }, "status": "Bad Request", "code": 400, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 400, \"mensagem\": \"Email invalido\" }" }
+              ]
+            },
+            {
+              "name": "Listar todos os usuários",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios", "host": ["{{base_url}}"], "path": ["api","v1","usuarios"] } },
+              "response": [
+                { "name": "✅ 200 — Lista retornada", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios", "host": ["{{base_url}}"], "path": ["api","v1","usuarios"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "[\n  { \"id\": 1, \"nome\": \"Joao Silva\", \"email\": \"joao.silva@email.com\", \"tipoUsuario\": { \"id\": 1, \"nome\": \"Dono de Restaurante\" } }\n]" }
+              ]
+            },
+            {
+              "name": "Buscar usuário por ID",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api","v1","usuarios","1"] } },
+              "response": [
+                { "name": "✅ 200 — Usuário encontrado", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api","v1","usuarios","1"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 1, \"nome\": \"Joao Silva\", \"email\": \"joao.silva@email.com\", \"tipoUsuario\": { \"id\": 1, \"nome\": \"Dono de Restaurante\" } }" },
+                { "name": "❌ 404 — Usuário não encontrado", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios/999", "host": ["{{base_url}}"], "path": ["api","v1","usuarios","999"] } }, "status": "Not Found", "code": 404, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 404, \"mensagem\": \"Usuario nao encontrado\" }" }
+              ]
+            },
+            {
+              "name": "Atualizar usuário",
+              "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api","v1","usuarios","1"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Joao Silva Atualizado\",\n  \"email\": \"joao.novo@email.com\",\n  \"senha\": \"novaSenha456\",\n  \"tipoUsuarioId\": 1\n}" } },
+              "response": [
+                { "name": "✅ 200 — Usuário atualizado", "originalRequest": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api","v1","usuarios","1"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Joao Silva Atualizado\",\n  \"email\": \"joao.novo@email.com\",\n  \"senha\": \"novaSenha456\",\n  \"tipoUsuarioId\": 1\n}" } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 1, \"nome\": \"Joao Silva Atualizado\", \"email\": \"joao.novo@email.com\", \"tipoUsuario\": { \"id\": 1, \"nome\": \"Dono de Restaurante\" } }" }
+              ]
+            },
+            {
+              "name": "Deletar usuário",
+              "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api","v1","usuarios","1"] } },
+              "response": [
+                { "name": "✅ 204 — Usuário deletado", "originalRequest": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api","v1","usuarios","1"] } }, "status": "No Content", "code": 204, "header": [], "body": "" }
+              ]
             }
-          }
+          ]
         },
         {
-          "name": "Deletar tipo de usuário",
-          "request": {
-            "method": "DELETE",
-            "url": { "raw": "{{base_url}}/api/v1/tipos-usuario/1", "host": ["{{base_url}}"], "path": ["api", "v1", "tipos-usuario", "1"] }
-          }
+          "name": "Restaurantes",
+          "item": [
+            {
+              "name": "Criar restaurante",
+              "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Cantina da Nonna\",\n  \"tipoCozinha\": \"Italiana\",\n  \"endereco\": \"Rua das Flores, 123 - Sao Paulo, SP\",\n  \"horarioFuncionamento\": \"11:00 - 22:00\",\n  \"donoRestauranteId\": 1\n}" } },
+              "response": [
+                { "name": "✅ 201 — Restaurante criado", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Cantina da Nonna\",\n  \"tipoCozinha\": \"Italiana\",\n  \"endereco\": \"Rua das Flores, 123\",\n  \"horarioFuncionamento\": \"11:00 - 22:00\",\n  \"donoRestauranteId\": 1\n}" } }, "status": "Created", "code": 201, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 2, \"nome\": \"Cantina da Nonna\", \"tipoCozinha\": \"Italiana\", \"endereco\": \"Rua das Flores, 123\", \"horarioFuncionamento\": \"11:00 - 22:00\", \"donoRestauranteId\": 1 }" },
+                { "name": "❌ 400 — Campo obrigatório ausente", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes"] }, "body": { "mode": "raw", "raw": "{\n  \"tipoCozinha\": \"Italiana\"\n}" } }, "status": "Bad Request", "code": 400, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 400, \"mensagem\": \"Nome nao pode ser vazio\" }" }
+              ]
+            },
+            {
+              "name": "Listar todos os restaurantes",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes"] } },
+              "response": [
+                { "name": "✅ 200 — Lista retornada", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "[\n  { \"id\": 1, \"nome\": \"Restaurante do Joao\", \"tipoCozinha\": \"Brasileira\", \"endereco\": \"Rua das Flores, 123, Sao Paulo - SP\", \"horarioFuncionamento\": \"Seg a Sex: 11h as 22h\", \"donoRestauranteId\": 1 }\n]" }
+              ]
+            },
+            {
+              "name": "Buscar restaurante por ID",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes","1"] } },
+              "response": [
+                { "name": "✅ 200 — Restaurante encontrado", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes","1"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 1, \"nome\": \"Restaurante do Joao\", \"tipoCozinha\": \"Brasileira\", \"endereco\": \"Rua das Flores, 123\", \"horarioFuncionamento\": \"Seg a Sex: 11h as 22h\", \"donoRestauranteId\": 1 }" },
+                { "name": "❌ 404 — Restaurante não encontrado", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes/999", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes","999"] } }, "status": "Not Found", "code": 404, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 404, \"mensagem\": \"Restaurante nao encontrado\" }" }
+              ]
+            },
+            {
+              "name": "Atualizar restaurante",
+              "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes","1"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Cantina da Nonna Atualizada\",\n  \"tipoCozinha\": \"Italiana Contemporanea\",\n  \"endereco\": \"Avenida Paulista, 1000\",\n  \"horarioFuncionamento\": \"12:00 - 23:00\",\n  \"donoRestauranteId\": 1\n}" } },
+              "response": [
+                { "name": "✅ 200 — Restaurante atualizado", "originalRequest": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes","1"] }, "body": { "mode": "raw", "raw": "" } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 1, \"nome\": \"Cantina da Nonna Atualizada\", \"tipoCozinha\": \"Italiana Contemporanea\", \"endereco\": \"Avenida Paulista, 1000\", \"horarioFuncionamento\": \"12:00 - 23:00\", \"donoRestauranteId\": 1 }" }
+              ]
+            },
+            {
+              "name": "Deletar restaurante",
+              "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes","1"] } },
+              "response": [
+                { "name": "✅ 204 — Restaurante deletado", "originalRequest": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api","v1","restaurantes","1"] } }, "status": "No Content", "code": 204, "header": [], "body": "" }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Itens do Cardapio",
+          "item": [
+            {
+              "name": "Criar item de cardápio",
+              "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Pizza Margherita\",\n  \"descricao\": \"Pizza classica com molho de tomate e queijo mozzarella\",\n  \"preco\": 45.90,\n  \"categoria\": \"PRATO_PRINCIPAL\",\n  \"restauranteId\": 1\n}" } },
+              "response": [
+                { "name": "✅ 201 — Item criado", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Pizza Margherita\",\n  \"preco\": 45.90,\n  \"categoria\": \"PRATO_PRINCIPAL\",\n  \"restauranteId\": 1\n}" } }, "status": "Created", "code": 201, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 4, \"nome\": \"Pizza Margherita\", \"descricao\": \"Pizza classica\", \"preco\": 45.90, \"categoria\": \"PRATO_PRINCIPAL\", \"restauranteId\": 1 }" },
+                { "name": "❌ 400 — Preço inválido", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Pizza\",\n  \"preco\": -10,\n  \"restauranteId\": 1\n}" } }, "status": "Bad Request", "code": 400, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 400, \"mensagem\": \"Preco deve ser positivo\" }" }
+              ]
+            },
+            {
+              "name": "Listar todos os itens de cardápio",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio"] } },
+              "response": [
+                { "name": "✅ 200 — Lista retornada", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "[\n  { \"id\": 1, \"nome\": \"Coxinha de Frango\", \"descricao\": \"Coxinha com catupiry\", \"preco\": 8.50, \"categoria\": \"ENTRADA\", \"restauranteId\": 1 },\n  { \"id\": 2, \"nome\": \"Feijoada Completa\", \"descricao\": \"Feijoada com arroz e couve\", \"preco\": 45.90, \"categoria\": \"PRATO_PRINCIPAL\", \"restauranteId\": 1 },\n  { \"id\": 3, \"nome\": \"Pudim de Leite\", \"descricao\": \"Pudim com calda de caramelo\", \"preco\": 15.00, \"categoria\": \"SOBREMESA\", \"restauranteId\": 1 }\n]" }
+              ]
+            },
+            {
+              "name": "Listar itens por restaurante",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/restaurante/1", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio","restaurante","1"] } },
+              "response": [
+                { "name": "✅ 200 — Itens do restaurante", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/restaurante/1", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio","restaurante","1"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "[\n  { \"id\": 1, \"nome\": \"Coxinha de Frango\", \"preco\": 8.50, \"categoria\": \"ENTRADA\", \"restauranteId\": 1 },\n  { \"id\": 2, \"nome\": \"Feijoada Completa\", \"preco\": 45.90, \"categoria\": \"PRATO_PRINCIPAL\", \"restauranteId\": 1 },\n  { \"id\": 3, \"nome\": \"Pudim de Leite\", \"preco\": 15.00, \"categoria\": \"SOBREMESA\", \"restauranteId\": 1 }\n]" }
+              ]
+            },
+            {
+              "name": "Buscar item por ID",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio","1"] } },
+              "response": [
+                { "name": "✅ 200 — Item encontrado", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio","1"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 1, \"nome\": \"Coxinha de Frango\", \"descricao\": \"Coxinha com catupiry\", \"preco\": 8.50, \"categoria\": \"ENTRADA\", \"restauranteId\": 1 }" },
+                { "name": "❌ 404 — Item não encontrado", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/999", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio","999"] } }, "status": "Not Found", "code": 404, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 404, \"mensagem\": \"Item de cardapio nao encontrado\" }" }
+              ]
+            },
+            {
+              "name": "Atualizar item de cardápio",
+              "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio","1"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Coxinha de Frango Especial\",\n  \"descricao\": \"Coxinha com catupiry e cream cheese\",\n  \"preco\": 12.00,\n  \"categoria\": \"ENTRADA\",\n  \"restauranteId\": 1\n}" } },
+              "response": [
+                { "name": "✅ 200 — Item atualizado", "originalRequest": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio","1"] }, "body": { "mode": "raw", "raw": "" } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"id\": 1, \"nome\": \"Coxinha de Frango Especial\", \"preco\": 12.00, \"categoria\": \"ENTRADA\", \"restauranteId\": 1 }" }
+              ]
+            },
+            {
+              "name": "Deletar item de cardápio",
+              "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio","1"] } },
+              "response": [
+                { "name": "✅ 204 — Item deletado", "originalRequest": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api","v1","itens-cardapio","1"] } }, "status": "No Content", "code": 204, "header": [], "body": "" }
+              ]
+            }
+          ]
         }
       ]
     },
     {
-      "name": "Usuarios",
+      "name": "Fase 3",
       "item": [
         {
-          "name": "Criar usuário",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{base_url}}/api/v1/usuarios", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao.silva@email.com\",\n  \"senha\": \"senha123\",\n  \"tipoUsuarioId\": 1\n}"
+          "name": "Autenticacao",
+          "item": [
+            {
+              "name": "Register — Cadastrar cliente",
+              "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{base_url}}/auth/register", "host": ["{{base_url}}"], "path": ["auth","register"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Instrutor FIAP\",\n  \"email\": \"instrutor@fiap.com\",\n  \"senha\": \"senha123\"\n}" } },
+              "response": [
+                { "name": "✅ 201 — Cliente cadastrado com role CLIENTE automatico", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{base_url}}/auth/register", "host": ["{{base_url}}"], "path": ["auth","register"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Instrutor FIAP\",\n  \"email\": \"instrutor@fiap.com\",\n  \"senha\": \"senha123\"\n}" } }, "status": "Created", "code": 201, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{\n  \"id\": 4,\n  \"nome\": \"Instrutor FIAP\",\n  \"email\": \"instrutor@fiap.com\",\n  \"tipoUsuario\": { \"id\": 2, \"nome\": \"Cliente\" }\n}" },
+                { "name": "❌ 400 — Senha muito curta (menos de 6 caracteres)", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{base_url}}/auth/register", "host": ["{{base_url}}"], "path": ["auth","register"] }, "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Instrutor FIAP\",\n  \"email\": \"instrutor@fiap.com\",\n  \"senha\": \"123\"\n}" } }, "status": "Bad Request", "code": 400, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 400, \"mensagem\": \"Senha deve ter no minimo 6 caracteres\" }" }
+              ]
+            },
+            {
+              "name": "Login — Obter token JWT",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": ["var json = pm.response.json();", "pm.collectionVariables.set(\"token\", json.token);", "console.log(\"Token salvo automaticamente: \" + json.token);"],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth","login"] }, "body": { "mode": "raw", "raw": "{\n  \"email\": \"instrutor@fiap.com\",\n  \"senha\": \"senha123\"\n}" } },
+              "response": [
+                { "name": "✅ 200 — Login realizado, token salvo automaticamente na variavel {{token}}", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth","login"] }, "body": { "mode": "raw", "raw": "{\n  \"email\": \"instrutor@fiap.com\",\n  \"senha\": \"senha123\"\n}" } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0IiwiaWF0IjoxNzc5MDQ4NDQ3LCJleHAiOjE3NzkxMzQ4NDd9.exemplo\",\n  \"tipo\": \"Bearer\",\n  \"clienteId\": 4,\n  \"nome\": \"Instrutor FIAP\"\n}" },
+                { "name": "❌ 401 — Credenciais inválidas", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth","login"] }, "body": { "mode": "raw", "raw": "{\n  \"email\": \"instrutor@fiap.com\",\n  \"senha\": \"senhaErrada\"\n}" } }, "status": "Unauthorized", "code": 401, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 401, \"mensagem\": \"Email ou senha invalidos\" }" }
+              ]
             }
-          }
+          ]
         },
         {
-          "name": "Listar todos os usuários",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/usuarios", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios"] }
-          }
-        },
-        {
-          "name": "Buscar usuário por ID",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios", "1"] }
-          }
-        },
-        {
-          "name": "Atualizar usuário",
-          "request": {
-            "method": "PUT",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios", "1"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"João Silva Atualizado\",\n  \"email\": \"joao.novo@email.com\",\n  \"senha\": \"novaSenha456\",\n  \"tipoUsuarioId\": 1\n}"
+          "name": "Pedidos",
+          "item": [
+            {
+              "name": "Criar pedido",
+              "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/pedidos", "host": ["{{base_url}}"], "path": ["api","v1","pedidos"] }, "body": { "mode": "raw", "raw": "{\n  \"restauranteId\": 1,\n  \"itens\": [\n    { \"itemCardapioId\": 1, \"quantidade\": 2 },\n    { \"itemCardapioId\": 3, \"quantidade\": 1 }\n  ]\n}" } },
+              "response": [
+                { "name": "✅ 201 — Pedido criado (2x Coxinha + 1x Pudim = R$ 32,00)", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/pedidos", "host": ["{{base_url}}"], "path": ["api","v1","pedidos"] }, "body": { "mode": "raw", "raw": "{\n  \"restauranteId\": 1,\n  \"itens\": [\n    { \"itemCardapioId\": 1, \"quantidade\": 2 },\n    { \"itemCardapioId\": 3, \"quantidade\": 1 }\n  ]\n}" } }, "status": "Created", "code": 201, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{\n  \"id\": 10,\n  \"valorTotal\": 32.00\n}" },
+                { "name": "❌ 401 — Sem token JWT", "originalRequest": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "url": { "raw": "{{base_url}}/api/v1/pedidos", "host": ["{{base_url}}"], "path": ["api","v1","pedidos"] }, "body": { "mode": "raw", "raw": "{\n  \"restauranteId\": 1,\n  \"itens\": [{ \"itemCardapioId\": 1, \"quantidade\": 2 }]\n}" } }, "status": "Unauthorized", "code": 401, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 401, \"mensagem\": \"Token JWT ausente ou invalido\" }" }
+              ]
+            },
+            {
+              "name": "Consultar pedido por ID",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/pedidos/10", "host": ["{{base_url}}"], "path": ["api","v1","pedidos","10"] } },
+              "response": [
+                { "name": "✅ 200 — Pedido PAGO (fluxo normal com procpag disponivel)", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/pedidos/10", "host": ["{{base_url}}"], "path": ["api","v1","pedidos","10"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{\n  \"id\": 10,\n  \"clienteId\": 4,\n  \"restauranteId\": 1,\n  \"valorTotal\": 32.00,\n  \"status\": \"PAGO\",\n  \"itens\": [\n    { \"id\": 12, \"itemCardapioId\": 1, \"nome\": \"Coxinha de Frango\", \"quantidade\": 2, \"preco\": 8.50 },\n    { \"id\": 13, \"itemCardapioId\": 3, \"nome\": \"Pudim de Leite\", \"quantidade\": 1, \"preco\": 15.00 }\n  ]\n}" },
+                { "name": "✅ 200 — Pedido PENDENTE_PAGAMENTO (procpag indisponivel, fallback acionado)", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/pedidos/10", "host": ["{{base_url}}"], "path": ["api","v1","pedidos","10"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{\n  \"id\": 10,\n  \"clienteId\": 4,\n  \"restauranteId\": 1,\n  \"valorTotal\": 32.00,\n  \"status\": \"PENDENTE_PAGAMENTO\",\n  \"itens\": [\n    { \"id\": 12, \"itemCardapioId\": 1, \"nome\": \"Coxinha de Frango\", \"quantidade\": 2, \"preco\": 8.50 }\n  ]\n}" },
+                { "name": "❌ 401 — Sem token JWT", "originalRequest": { "method": "GET", "header": [], "url": { "raw": "{{base_url}}/api/v1/pedidos/10", "host": ["{{base_url}}"], "path": ["api","v1","pedidos","10"] } }, "status": "Unauthorized", "code": 401, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 401, \"mensagem\": \"Token JWT ausente ou invalido\" }" },
+                { "name": "❌ 403 — Pedido pertence a outro cliente", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/pedidos/1", "host": ["{{base_url}}"], "path": ["api","v1","pedidos","1"] } }, "status": "Forbidden", "code": 403, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 403, \"mensagem\": \"Acesso negado — este pedido nao pertence ao cliente autenticado\" }" }
+              ]
+            },
+            {
+              "name": "Listar meus pedidos",
+              "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/pedidos", "host": ["{{base_url}}"], "path": ["api","v1","pedidos"] } },
+              "response": [
+                { "name": "✅ 200 — Lista com pedidos do cliente autenticado", "originalRequest": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": { "raw": "{{base_url}}/api/v1/pedidos", "host": ["{{base_url}}"], "path": ["api","v1","pedidos"] } }, "status": "OK", "code": 200, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "[\n  {\n    \"id\": 10,\n    \"clienteId\": 4,\n    \"restauranteId\": 1,\n    \"valorTotal\": 32.00,\n    \"status\": \"PENDENTE_PAGAMENTO\",\n    \"itens\": [\n      { \"id\": 12, \"itemCardapioId\": 1, \"nome\": \"Coxinha de Frango\", \"quantidade\": 2, \"preco\": 8.50 },\n      { \"id\": 13, \"itemCardapioId\": 3, \"nome\": \"Pudim de Leite\", \"quantidade\": 1, \"preco\": 15.00 }\n    ]\n  },\n  {\n    \"id\": 11,\n    \"clienteId\": 4,\n    \"restauranteId\": 1,\n    \"valorTotal\": 45.90,\n    \"status\": \"PAGO\",\n    \"itens\": [\n      { \"id\": 14, \"itemCardapioId\": 2, \"nome\": \"Feijoada Completa\", \"quantidade\": 1, \"preco\": 45.90 }\n    ]\n  }\n]" },
+                { "name": "❌ 401 — Sem token JWT", "originalRequest": { "method": "GET", "header": [], "url": { "raw": "{{base_url}}/api/v1/pedidos", "host": ["{{base_url}}"], "path": ["api","v1","pedidos"] } }, "status": "Unauthorized", "code": 401, "header": [{ "key": "Content-Type", "value": "application/json" }], "body": "{ \"status\": 401, \"mensagem\": \"Token JWT ausente ou invalido\" }" }
+              ]
             }
-          }
-        },
-        {
-          "name": "Deletar usuário",
-          "request": {
-            "method": "DELETE",
-            "url": { "raw": "{{base_url}}/api/v1/usuarios/1", "host": ["{{base_url}}"], "path": ["api", "v1", "usuarios", "1"] }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Restaurantes",
-      "item": [
-        {
-          "name": "Criar restaurante",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Cantina da Nonna\",\n  \"tipoCozinha\": \"Italiana\",\n  \"endereco\": \"Rua das Flores, 123 - São Paulo, SP\",\n  \"horarioFuncionamento\": \"11:00 - 22:00\",\n  \"donoRestauranteId\": 1\n}"
-            }
-          }
-        },
-        {
-          "name": "Listar todos os restaurantes",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/restaurantes", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes"] }
-          }
-        },
-        {
-          "name": "Buscar restaurante por ID",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes", "1"] }
-          }
-        },
-        {
-          "name": "Atualizar restaurante",
-          "request": {
-            "method": "PUT",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes", "1"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Cantina da Nonna Atualizada\",\n  \"tipoCozinha\": \"Italiana Contemporânea\",\n  \"endereco\": \"Avenida Paulista, 1000 - São Paulo, SP\",\n  \"horarioFuncionamento\": \"12:00 - 23:00\",\n  \"donoRestauranteId\": 1\n}"
-            }
-          }
-        },
-        {
-          "name": "Deletar restaurante",
-          "request": {
-            "method": "DELETE",
-            "url": { "raw": "{{base_url}}/api/v1/restaurantes/1", "host": ["{{base_url}}"], "path": ["api", "v1", "restaurantes", "1"] }
-          }
-        }
-      ]
-    },
-    {
-      "name": "Itens do Cardapio",
-      "item": [
-        {
-          "name": "Criar item de cardápio",
-          "request": {
-            "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Pizza Margherita\",\n  \"descricao\": \"Pizza clássica com molho de tomate, queijo mozzarella e manjericão fresco\",\n  \"preco\": 45.90,\n  \"categoria\": \"PRATO_PRINCIPAL\",\n  \"restauranteId\": 1\n}"
-            }
-          }
-        },
-        {
-          "name": "Listar todos os itens de cardápio",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/itens-cardapio", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio"] }
-          }
-        },
-        {
-          "name": "Buscar item de cardápio por ID",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio", "1"] }
-          }
-        },
-        {
-          "name": "Listar itens por restaurante",
-          "request": {
-            "method": "GET",
-            "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/restaurante/1", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio", "restaurante", "1"] }
-          }
-        },
-        {
-          "name": "Atualizar item de cardápio",
-          "request": {
-            "method": "PUT",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
-            "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio", "1"] },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"nome\": \"Pizza Margherita Especial\",\n  \"descricao\": \"Pizza com molho caseiro, queijo mozzarella de búfala e manjericão fresco\",\n  \"preco\": 55.90,\n  \"categoria\": \"PRATO_PRINCIPAL\",\n  \"restauranteId\": 1\n}"
-            }
-          }
-        },
-        {
-          "name": "Deletar item de cardápio",
-          "request": {
-            "method": "DELETE",
-            "url": { "raw": "{{base_url}}/api/v1/itens-cardapio/1", "host": ["{{base_url}}"], "path": ["api", "v1", "itens-cardapio", "1"] }
-          }
+          ]
         }
       ]
     }
