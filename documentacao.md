@@ -535,4 +535,6 @@ Cada endpoint possui exemplos salvos de respostas de sucesso (✅) e erro (❌) 
 
 ## 11. Vídeo de Apresentação
 
-LINK AQUI
+[![Tech Challenge 3 — Apresentação](https://img.youtube.com/vi/4qqIDYxtOU8/0.jpg)](https://www.youtube.com/watch?v=4qqIDYxtOU8)
+
+🔗 https://www.youtube.com/watch?v=4qqIDYxtOU8
